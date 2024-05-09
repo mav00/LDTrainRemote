@@ -5,7 +5,8 @@
 Lpf2Hub myHub;
 byte port = (byte)PoweredUpHubPort::A;
 
-#define BTN_MUSIK 25
+//Pin declaration
+#define BTN_MUSIC 25
 #define BTN_LICHT 26
 #define BTN_WASSER 27
 #define BTN_STOP 14
@@ -23,17 +24,16 @@ static int gSpeed =0;
 
 void handlePoti()
 {
-  //Todo: ordentliche umrechnung der Zahlen von Poti zu hex values
   int ptiSpeed = analogRead(PTI_SPEED);
   gLastStatePtiSpeed = ptiSpeed;
-
+  //Serial.println(ptiSpeed);
   int speed = 0;
-  if ( ptiSpeed > 1100) speed = 64;
-  else if (ptiSpeed > 800) speed = 32;
-  else if (ptiSpeed > 600) speed = 16;
-  else if (ptiSpeed > 400) speed = 0;
-  else if (ptiSpeed > 200) speed = -32;
-  else speed = -64;
+  if ( ptiSpeed > 1100) speed = 64;     //Fast foreward
+  else if (ptiSpeed > 800) speed = 32;  //normal forweard
+  else if (ptiSpeed > 600) speed = 16;  //slow forefard (might not work on low battery) 
+  else if (ptiSpeed > 400) speed = 0;   //stop
+  else if (ptiSpeed > 200) speed = -32; //slow backward
+  else speed = -64;                     //fast foreward
 
   if(speed != gSpeed)
   { 
@@ -104,7 +104,7 @@ void handleButtons()
 void setup() {
   Serial.begin(115200);
   //define Pin Modes
-  tasterMusic.attach(BTN_MUSIK, INPUT_PULLUP);
+  tasterMusic.attach(BTN_MUSIC, INPUT_PULLUP);
   tasterLight.attach(BTN_LICHT, INPUT_PULLUP);
   tasterWater.attach(BTN_WASSER, INPUT_PULLUP);
   tasterStop.attach(BTN_STOP, INPUT_PULLUP);
