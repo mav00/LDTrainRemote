@@ -1,6 +1,6 @@
-#include <Lpf2Hub.h>
-#include <Lpf2HubConst.h>
-#include <Bounce2.h>
+#include <Lpf2Hub.h>      //legoino
+#include <Lpf2HubConst.h> //legoino
+#include <Bounce2.h>      //bounce2
 
 Lpf2Hub myHub;
 byte port = (byte)PoweredUpHubPort::A;
@@ -12,10 +12,10 @@ byte port = (byte)PoweredUpHubPort::A;
 #define BTN_STOP 14
 #define PTI_SPEED 15
 
-Bounce tasterMusic = Bounce();
-Bounce tasterLight = Bounce();
-Bounce tasterWater = Bounce();
-Bounce tasterStop = Bounce();
+Bounce pbMusic = Bounce();
+Bounce pbLight = Bounce();
+Bounce pbWater = Bounce();
+Bounce pbStop = Bounce();
 int gLastStatePtiSpeed = 0;
 
 static int gLightOn = 0;
@@ -67,33 +67,33 @@ Color getNextColor()
 
 void handleButtons()
 {
-  if(tasterMusic.update())
+  if(pbMusic.update())
   {
-    if(tasterMusic.fell())
+    if(pbMusic.fell())
     {
       myHub.playSound((byte)DuploTrainBaseSound::HORN);
       delay(100);
     }
   }
-  if(tasterLight.update())
+  if(pbLight.update())
   {
-    if(tasterLight.fell())
+    if(pbLight.fell())
     {
       myHub.setLedColor(getNextColor());
       delay(100);
     }
   }
-  if(tasterWater.update())
+  if(pbWater.update())
   {
-    if(tasterWater.fell())
+    if(pbWater.fell())
     {
       myHub.playSound((byte)DuploTrainBaseSound::WATER_REFILL);
       delay(500);  
     }
   }
-  if(tasterStop.update())
+  if(pbStop.update())
   {
-    if(tasterStop.fell())
+    if(pbStop.fell())
     {
       myHub.setBasicMotorSpeed(port, 0);
       delay(100);
@@ -104,14 +104,14 @@ void handleButtons()
 void setup() {
   Serial.begin(115200);
   //define Pin Modes
-  tasterMusic.attach(BTN_MUSIC, INPUT_PULLUP);
-  tasterLight.attach(BTN_LICHT, INPUT_PULLUP);
-  tasterWater.attach(BTN_WASSER, INPUT_PULLUP);
-  tasterStop.attach(BTN_STOP, INPUT_PULLUP);
+  pbMusic.attach(BTN_MUSIC, INPUT_PULLUP);
+  pbLight.attach(BTN_LICHT, INPUT_PULLUP);
+  pbWater.attach(BTN_WASSER, INPUT_PULLUP);
+  pbStop.attach(BTN_STOP, INPUT_PULLUP);
 
   myHub.init();
 }
-// This is the Arduino main loop function.
+
 void loop() {
 
     if (myHub.isConnecting()) {
