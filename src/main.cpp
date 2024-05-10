@@ -88,7 +88,7 @@ void handleButtons()
     if(pbWater.fell())
     {
       myHub.playSound((byte)DuploTrainBaseSound::WATER_REFILL);
-      delay(500);  
+      delay(100);  
     }
   }
   if(pbStop.update())
@@ -97,6 +97,7 @@ void handleButtons()
     {
       myHub.setBasicMotorSpeed(port, 0);
       delay(100);
+      myHub.playSound((byte)DuploTrainBaseSound::BRAKE);
     }
   }
 }
